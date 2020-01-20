@@ -1,7 +1,6 @@
 package io.vertx.rx.java.test;
 
 import io.vertx.core.http.HttpClientOptions;
-import io.vertx.core.http.HttpMethod;
 import io.vertx.core.http.HttpServerOptions;
 import io.vertx.core.net.NetClientOptions;
 import io.vertx.core.net.NetServerOptions;
@@ -16,6 +15,7 @@ import io.vertx.rxjava.core.eventbus.MessageConsumer;
 import io.vertx.rxjava.core.http.HttpClient;
 import io.vertx.rxjava.core.http.HttpClientRequest;
 import io.vertx.rxjava.core.http.HttpClientResponse;
+import io.vertx.rxjava.core.http.HttpMethod;
 import io.vertx.rxjava.core.http.HttpServer;
 import io.vertx.rxjava.core.http.HttpServerRequest;
 import io.vertx.rxjava.core.http.ServerWebSocket;
@@ -282,7 +282,7 @@ public class CoreApiTest extends VertxTestBase {
         })
     );
     HttpServer server = vertx.createHttpServer(new HttpServerOptions().setPort(8080).setHost("localhost"));
-    Observable<ServerWebSocket> socketObs = server.websocketStream().toObservable();
+    Observable<ServerWebSocket> socketObs = server.webSocketStream().toObservable();
     socketObs.subscribe(new Subscriber<ServerWebSocket>() {
       @Override
       public void onNext(ServerWebSocket o) {
@@ -629,7 +629,7 @@ public class CoreApiTest extends VertxTestBase {
   @Test
   public void testWebsocketClient() {
     HttpServer server = vertx.createHttpServer(new HttpServerOptions().setPort(8080));
-    server.websocketStream().handler(ws -> {
+    server.webSocketStream().handler(ws -> {
       ws.write(Buffer.buffer("some_content"));
       ws.close();
     });
@@ -654,7 +654,7 @@ public class CoreApiTest extends VertxTestBase {
   @Test
   public void testWebsocketClientFlatMap() {
     HttpServer server = vertx.createHttpServer(new HttpServerOptions().setPort(8080));
-    server.websocketStream().handler(ws -> {
+    server.webSocketStream().handler(ws -> {
       ws.write(Buffer.buffer("some_content"));
       ws.close();
     });
